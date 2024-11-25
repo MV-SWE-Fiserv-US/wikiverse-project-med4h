@@ -29,7 +29,7 @@ Once you’ve got the app started up, it’s time to make your first edit and ad
     - Content
     - Tags
     - Date (createdAt)
-2. You’ll have to
+2. You’ll have toq
     - Make a fetch request to the /wiki/:slug endpoint for the specific article.
     - Set the article data on state (a new piece of state)
     - Render the article data in a component
