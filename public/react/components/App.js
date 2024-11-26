@@ -79,7 +79,7 @@ export const App = () => {
       console.log('Oh no an error!', err)
     }
 
-    const handleDeletepage = async (slug) => {
+    const handleDeletePage = async () => {
       try {
         const response = await fetch(`${apiURL}/wiki/${slug}`, {
           method: 'DELETE'
@@ -119,7 +119,7 @@ export const App = () => {
         </form>
       )} : selectedPage ? ( 
         <PageDetails page={selectedPage} goBack={() => setSelectedPage(null)}/>
-          <button onClick={() => handleDeletePage(selectedPage.slug)}>Delete</button>
+          <button onClick={() => handleDeletePage(setSelectedPage)}>Delete</button>
       ) : (
 			<PagesList pages={pages} onPageClick={fetchPageDetails}/>
       )
