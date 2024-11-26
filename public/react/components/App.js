@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { PagesList } from './PagesList'
-import { pageDetails } from './PageDetails'
+import { pageDetails } from './pageDetails.js'
 
 // import and prepend the api url to any fetch calls
 import apiURL from '../api'
