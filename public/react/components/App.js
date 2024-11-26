@@ -1,73 +1,48 @@
 import React, { useState, useEffect } from 'react'
 import { PagesList } from './PagesList'
+import { pageDetails } from './PageDetails'
 
 // import and prepend the api url to any fetch calls
 import apiURL from '../api'
-import { title } from 'process';
+
 
 export const App = () => {
   const [pages, setPages] = useState([]);
-  const [AddingArticle, setAddingArticle] = useState(false);
-  const [pageDetails, setPageDetails] = useState({
-    title: '',
-    author: '',
-    content: '',
-    tags: [],
-    date: '',
+  const [selectedPage, setSelectedPage] = useState(null);
   
-  });
-
-  const [newBook, setNewBook] = useState({
-    title:'',
-    content:'',
-    name: '', 
-    email: '',
-    tags: ''
-
-  });
-
-  const [title, setTitle] = useState('');
-  const handleTitle = (e) =>{
-    setTitle(e.target.value);
-}
-
-  const [content, setContent] = useState('');
-  const handleContent = (e) =>{
-    setContent(e.target.value);
-}
-  const [author, setAuthor] = useState(''); 
-  const handleAuthor = (e) =>{
-    setAuthor(e.target.value);
-}
-  const [email, setEmail] = useState('');
-  const handleEmail = (e) =>{
-    setEmail(e.target.value); 
-}
-  const [tags, setTags] = useState([]);
-  const handleTags = (e) =>{
-    setTags(e.target.value);
-}
-
-
-  async function fetchPages () {
+  async function fetchPages() {
     try {
-      const response = await fetch(`${apiURL}/wiki`)
-      const pagesData = await response.json()
-      setPages(pagesData)
-    } catch (err) {
-      console.log('Oh no an error! ', err)
+      const response = await fetch(`${apiURL}/wiki`);
+      const pagesData = await response.json();
+      setPages(pagesData);
+    } catch(err) {
+      console.log('Oh no an error!', err)
+    }
+  }
+
+  async function fetchPageDetails(slug) {
+    try {
+      const response = await fetch(`${apiURL}/wiki/${slug}`);
+      const pageData = await response.json();
+      setSelectedPage(pageData);
+    } catch(err) {
+      console.log('Oh no an error!', err)
     }
   }
 
   useEffect(() => {
-    fetchPages()
-  }, [])
+    fetchPages();
+  }, []);
 
   return (
 		<main>
       <h1>WikiVerse</h1>
 			<h2>An interesting 📚</h2>
-			<PagesList pages={pages} />
-		</main>
+      {selectedPage ? ( 
+        <PageDetails page={selectedPage} goBack={() => setSelectedPage(null)}/>
+      ) : (
+			<PagesList pages={pages} onPageClick={fetchPageDetails}/>
+      )} 
+    </main>
   )
 }
